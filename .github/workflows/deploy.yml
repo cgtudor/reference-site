@@ -33,6 +33,11 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
+      - name: Copy data files to public directory
+        run: |
+          cp *.2da reference-app/public/
+          cp *.tlk.json reference-app/public/
+          
       - name: Install dependencies
         run: |
           cd reference-app
