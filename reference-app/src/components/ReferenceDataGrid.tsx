@@ -540,6 +540,10 @@ export function ReferenceDataGrid({
         }}
         sx={{
           border: 0,
+          '& .MuiDataGrid-cell': {
+            display: 'flex',
+            alignItems: 'center',
+          },
           '& .MuiDataGrid-cell:hover': {
             color: 'primary.main',
           },
