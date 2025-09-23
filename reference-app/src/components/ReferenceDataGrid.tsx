@@ -28,6 +28,30 @@ interface ReferenceDataGridProps {
   onCrossReference?: (type: string, value: string) => void;
 }
 
+// Column visibility configurations for each table type
+const COLUMN_CONFIGS = {
+  appearance: {
+    hidden: ['STRING_REF', 'ENVMAP', 'BLOODCOLR', 'WING_TAIL_SCALE', 'HELMET_SCALE_M', 'HELMET_SCALE_F', 'PERSPACE', 'CREPERSPACE', 'TARGETHEIGHT', 'ABORTONPARRY', 'PERCEPTIONDIST', 'FOOTSTEPTYPE', 'SOUNDAPPTYPE', 'HEADTRACK', 'HEAD_ARC_H', 'HEAD_ARC_V', 'BODY_BAG', 'TARGETABLE'],
+    order: ['ID', 'LABEL', 'NAME'], // NAME (description) comes after LABEL
+  },
+  feats: {
+    hidden: ['GAINMULTIPLE', 'CATEGORY', 'MAXCR', 'CRValue', 'TOOLSCATEGORIES', 'PreReqEpic'],
+    order: ['ID', 'LABEL', 'FEAT', 'DESCRIPTION'], // DESCRIPTION comes after LABEL
+  },
+  spells: {
+    hidden: ['ConjAnim', 'ConjHeadVisual', 'ConjHandVisual', 'ConjGrndVisual', 'ConjSoundVFX', 'ConjSoundMale', 'ConjSoundFemale', 'CastHeadVisual', 'CastHandVisual', 'CastGrndVisual', 'CastSound', 'ProjModel', 'ProjType', 'ProjSpwnPoint', 'ProjSound', 'ProjOrientation', 'ItemImmunity', 'Category', 'UserType', 'Counter1', 'Counter2', 'Necro', 'Blighter', 'TargetSizeX', 'TargetSizeY', 'TargetFlags'],
+    order: ['ID', 'Label', 'Name', 'SpellDesc'], // SpellDesc comes after Name
+  },
+};
+
+function getTableType(title: string): keyof typeof COLUMN_CONFIGS {
+  const titleLower = title.toLowerCase();
+  if (titleLower.includes('appearance')) return 'appearance';
+  if (titleLower.includes('feat')) return 'feats';
+  if (titleLower.includes('spell')) return 'spells';
+  return 'spells'; // default
+}
+
 function CustomToolbar({ 
   title, 
   onExportCSV 
@@ -71,7 +95,11 @@ export function ReferenceDataGrid({
   const columns: GridColDef[] = useMemo(() => {
     if (!data || data.columns.length === 0) return [];
 
-    return data.columns.map((col, index) => {
+    const tableType = getTableType(title);
+    const config = COLUMN_CONFIGS[tableType];
+    
+    // Create base columns
+    const baseColumns = data.columns.map((col, index) => {
       const field = col === 'ID' ? 'id' : col;
       
       const baseColumn: GridColDef = {
@@ -97,11 +125,11 @@ export function ReferenceDataGrid({
               variant="outlined"
             />
           ),
-        };
+        } as GridColDef;
       }
 
       // Highlight the Label column
-      if (col === 'Label') {
+      if (col === 'Label' || col === 'LABEL') {
         return {
           ...baseColumn,
           width: 250,
@@ -110,7 +138,24 @@ export function ReferenceDataGrid({
               {params.value}
             </Typography>
           ),
-        };
+        } as GridColDef;
+      }
+
+      // Handle description columns with wider width and text wrapping
+      if (col === 'NAME' || col === 'DESCRIPTION' || col === 'SpellDesc') {
+        return {
+          ...baseColumn,
+          width: 300,
+          renderCell: (params: GridRenderCellParams) => (
+            <Typography variant="body2" sx={{ 
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}>
+              {params.value}
+            </Typography>
+          ),
+        } as GridColDef;
       }
 
       // Handle potential cross-references for spell/feat IDs
@@ -145,12 +190,49 @@ export function ReferenceDataGrid({
             }
             return value;
           },
-        };
+        } as GridColDef;
       }
 
       return baseColumn;
     });
-  }, [data, onCrossReference]);
+
+    // Apply custom ordering if specified
+    if (config.order && config.order.length > 0) {
+      const orderedColumns: GridColDef[] = [];
+      const remainingColumns = [...baseColumns];
+
+      // Add columns in specified order first
+      for (const orderedCol of config.order) {
+        const colIndex = remainingColumns.findIndex(c => c.headerName === orderedCol);
+        if (colIndex !== -1) {
+          orderedColumns.push(remainingColumns[colIndex]);
+          remainingColumns.splice(colIndex, 1);
+        }
+      }
+
+      // Add remaining columns
+      orderedColumns.push(...remainingColumns);
+      return orderedColumns;
+    }
+
+    return baseColumns;
+  }, [data, onCrossReference, title]);
+
+  // Create column visibility model
+  const columnVisibilityModel = useMemo(() => {
+    if (!data?.columns) return {};
+    
+    const tableType = getTableType(title);
+    const config = COLUMN_CONFIGS[tableType];
+    const visibilityModel: Record<string, boolean> = {};
+    
+    config.hidden.forEach(col => {
+      const field = col === 'ID' ? 'id' : col;
+      visibilityModel[field] = false;
+    });
+    
+    return visibilityModel;
+  }, [data, title]);
 
   // Filter rows based on search text
   const filteredRows = useMemo(() => {
@@ -207,6 +289,9 @@ export function ReferenceDataGrid({
         initialState={{
           pagination: {
             paginationModel: { page: 0, pageSize: 25 },
+          },
+          columns: {
+            columnVisibilityModel,
           },
         }}
         slots={{

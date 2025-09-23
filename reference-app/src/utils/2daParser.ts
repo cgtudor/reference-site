@@ -8,6 +8,117 @@ export interface TableData {
   rows: TableRow[];
 }
 
+export interface TlkEntry {
+  id: number;
+  text: string;
+}
+
+export interface TlkFile {
+  language: number;
+  entries: TlkEntry[];
+}
+
+// Cache for TLK data
+let dialogTlkCache: Map<number, string> | null = null;
+let dragonsneckTlkCache: Map<number, string> | null = null;
+let tlkLoadPromise: Promise<void> | null = null;
+
+/**
+ * Loads and caches both TLK files separately
+ */
+async function loadTlkData(): Promise<void> {
+  if (dialogTlkCache && dragonsneckTlkCache) {
+    return;
+  }
+
+  if (tlkLoadPromise) {
+    await tlkLoadPromise;
+    return;
+  }
+
+  tlkLoadPromise = (async () => {
+    try {
+      console.log('Loading TLK files...');
+      
+      // Load both TLK files
+      const [dialogResponse, dragonsneckResponse] = await Promise.all([
+        fetch('/dialog.tlk.json'),
+        fetch('/dragonsneck.tlk.json')
+      ]);
+
+      if (!dialogResponse.ok || !dragonsneckResponse.ok) {
+        throw new Error('Failed to load TLK files');
+      }
+
+      const [dialogTlk, dragonsneckTlk]: [TlkFile, TlkFile] = await Promise.all([
+        dialogResponse.json(),
+        dragonsneckResponse.json()
+      ]);
+
+      console.log(`Loaded dialog.tlk with ${dialogTlk.entries.length} entries`);
+      console.log(`Loaded dragonsneck.tlk with ${dragonsneckTlk.entries.length} entries`);
+
+      // Create separate lookup maps
+      dialogTlkCache = new Map<number, string>();
+      dragonsneckTlkCache = new Map<number, string>();
+
+      // Add dialog.tlk entries
+      for (const entry of dialogTlk.entries) {
+        dialogTlkCache.set(entry.id, entry.text);
+      }
+
+      // Add dragonsneck.tlk entries
+      for (const entry of dragonsneckTlk.entries) {
+        dragonsneckTlkCache.set(entry.id, entry.text);
+      }
+
+      console.log(`Dialog TLK cache: ${dialogTlkCache.size} entries`);
+      console.log(`Dragonsneck TLK cache: ${dragonsneckTlkCache.size} entries`);
+    } catch (error) {
+      console.error('Error loading TLK files:', error);
+      dialogTlkCache = new Map(); // Empty map as fallback
+      dragonsneckTlkCache = new Map(); // Empty map as fallback
+    }
+  })();
+
+  await tlkLoadPromise;
+}
+
+/**
+ * Resolves a string reference ID to its text value
+ */
+function resolveStringRef(strRef: string | number): string {
+  if (!dialogTlkCache || !dragonsneckTlkCache) {
+    return strRef.toString(); // Return original if TLK not loaded
+  }
+
+  const id = typeof strRef === 'string' ? parseInt(strRef, 10) : strRef;
+  if (isNaN(id)) {
+    return strRef.toString();
+  }
+
+  // Check if this is a custom TLK reference (magic number 16,777,216)
+  const CUSTOM_TLK_OFFSET = 16777216;
+  if (id >= CUSTOM_TLK_OFFSET) {
+    // Custom TLK reference - look in dragonsneck.tlk
+    const customId = id - CUSTOM_TLK_OFFSET;
+    const resolved = dragonsneckTlkCache.get(customId);
+    if (resolved) {
+      return resolved;
+    }
+    console.log(`Custom string reference ${id} (offset ${customId}) not found in dragonsneck TLK`);
+  } else {
+    // Standard TLK reference - look in dialog.tlk
+    const resolved = dialogTlkCache.get(id);
+    if (resolved) {
+      return resolved;
+    }
+    console.log(`Standard string reference ${id} not found in dialog TLK`);
+  }
+
+  return strRef.toString();
+}
+
 /**
  * Cleans column names by converting underscores to spaces and capitalizing words
  */
@@ -166,9 +277,15 @@ export function parse2DAFile(content: string): TableData {
       if (value === '****') {
         value = '';
       }
-      
+
+      // Resolve string references for various name/description columns
+      const stringRefColumns = ['Name', 'SpellDesc', 'FEAT', 'DESCRIPTION', 'STRING_REF', 'NAME', 'AltMessage'];
+      if (stringRefColumns.includes(columnName) && value !== '' && /^\d+$/.test(value)) {
+        const resolvedText = resolveStringRef(value);
+        row[columnName] = resolvedText;
+      }
       // Try to convert to number if it looks like one (more precise regex)
-      if (value !== '' && /^-?\d+(\.\d+)?$/.test(value)) {
+      else if (value !== '' && /^-?\d+(\.\d+)?$/.test(value)) {
         const numValue = parseFloat(value);
         if (!isNaN(numValue)) {
           row[columnName] = numValue;
@@ -193,6 +310,10 @@ export function parse2DAFile(content: string): TableData {
 export async function load2DAFile(filename: string): Promise<TableData> {
   try {
     console.log('Fetching file:', filename);
+    
+    // Load TLK data first
+    await loadTlkData();
+    
     const response = await fetch(`/${filename}`);
     console.log('Response status:', response.status, response.statusText);
     

@@ -149,22 +149,6 @@ export function ReferenceApp() {
                   Failed to load {table.label}: {table.data.error}
                 </Alert>
               )}
-
-              {/* Debug information */}
-              {!table.data.loading && (
-                <Box sx={{ mb: 2, p: 2, bgcolor: 'background.paper', border: 1, borderColor: 'divider' }}>
-                  <Typography variant="caption" component="div">
-                    Debug: Loading: {table.data.loading.toString()}, 
-                    Error: {table.data.error || 'none'}, 
-                    Data: {table.data.data ? `${table.data.data.rows.length} rows, ${table.data.data.columns.length} columns` : 'null'}
-                  </Typography>
-                  {table.data.data && table.data.data.columns.length > 0 && (
-                    <Typography variant="caption" component="div">
-                      Columns: {table.data.data.columns.slice(0, 5).join(', ')}...
-                    </Typography>
-                  )}
-                </Box>
-              )}
               
               {table.data.data && !table.data.loading && (
                 <>
