@@ -86,19 +86,19 @@ export function ReferenceApp() {
       label: 'Appearance',
       filename: 'appearance.2da',
       data: appearanceData,
-      description: 'Character and creature appearance definitions'
+      description: 'Character and creature appearance definitions. Some columns are hidden by default, use "Manage columns" to see them.'
     },
     {
       label: 'Feats',
       filename: 'feat.2da',
       data: featData,
-      description: 'Available feats and their properties'
+      description: 'Available feats and their properties. Some columns are hidden by default, use "Manage columns" to see them.'
     },
     {
       label: 'Spells',
       filename: 'spells.2da',
       data: spellsData,
-      description: 'Spell definitions and casting information'
+      description: 'Spell definitions and casting information. Some columns are hidden by default, use "Manage columns" to see them.'
     },
   ];
 
@@ -107,10 +107,7 @@ export function ReferenceApp() {
       <AppBar position="static" elevation={0}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Neverwinter Nights Reference Tables
-          </Typography>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-            TDN Reference Site
+            TDN Reference Tables
           </Typography>
         </Toolbar>
       </AppBar>
