@@ -42,8 +42,8 @@ async function loadTlkData(): Promise<void> {
       
       // Load both TLK files
       const [dialogResponse, dragonsneckResponse] = await Promise.all([
-        fetch('/dialog.tlk.json'),
-        fetch('/dragonsneck.tlk.json')
+        fetch(`${process.env.PUBLIC_URL}/dialog.tlk.json`),
+        fetch(`${process.env.PUBLIC_URL}/dragonsneck.tlk.json`)
       ]);
 
       if (!dialogResponse.ok || !dragonsneckResponse.ok) {
@@ -314,7 +314,7 @@ export async function load2DAFile(filename: string): Promise<TableData> {
     // Load TLK data first
     await loadTlkData();
     
-    const response = await fetch(`/${filename}`);
+    const response = await fetch(`${process.env.PUBLIC_URL}/${filename}`);
     console.log('Response status:', response.status, response.statusText);
     
     if (!response.ok) {
