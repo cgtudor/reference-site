@@ -54,13 +54,29 @@ export function ReferenceApp() {
   };
 
   const handleCrossReference = (type: string, value: string) => {
-    // Switch to the appropriate tab when cross-referencing
+    const targetId = parseInt(value);
+    
     if (type === 'spell' && spellsData.data) {
-      setCurrentTab(2); // Spells tab
-      // You could also scroll to the specific row here
+      // For spells, just open the modal without switching tabs
+      const targetRow = spellsData.data.rows.find(row => row.id === targetId);
+      if (targetRow) {
+        // Trigger opening the detail dialog for this row immediately
+        const event = new CustomEvent('openRowDetail', { 
+          detail: { row: targetRow, tableType: 'spells', columns: spellsData.data.columns } 
+        });
+        window.dispatchEvent(event);
+      }
       console.log(`Cross-referencing to spell ID: ${value}`);
     } else if (type === 'feat' && featData.data) {
-      setCurrentTab(1); // Feats tab
+      // For feats, just open the modal without switching tabs
+      const targetRow = featData.data.rows.find(row => row.id === targetId);
+      if (targetRow) {
+        // Trigger opening the detail dialog for this row immediately
+        const event = new CustomEvent('openRowDetail', { 
+          detail: { row: targetRow, tableType: 'feats', columns: featData.data.columns } 
+        });
+        window.dispatchEvent(event);
+      }
       console.log(`Cross-referencing to feat ID: ${value}`);
     }
   };

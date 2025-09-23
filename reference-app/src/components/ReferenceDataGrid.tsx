@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   DataGrid,
   GridColDef,
@@ -7,6 +7,7 @@ import {
   GridToolbarFilterButton,
   GridToolbarDensitySelector,
   GridRenderCellParams,
+  GridRowParams,
 } from '@mui/x-data-grid';
 import {
   Box,
@@ -16,8 +17,14 @@ import {
   Typography,
   Button,
   Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Divider,
+  IconButton,
 } from '@mui/material';
-import { Search, Download } from '@mui/icons-material';
+import { Search, Download, Close, Visibility } from '@mui/icons-material';
 import { TableData, exportToCSV } from '../utils/2daParser';
 import '../styles/DataGrid.css';
 
@@ -26,6 +33,174 @@ interface ReferenceDataGridProps {
   title: string;
   loading?: boolean;
   onCrossReference?: (type: string, value: string) => void;
+}
+
+interface RowDetailDialogProps {
+  open: boolean;
+  onClose: () => void;
+  rowData: any;
+  columns: string[];
+  title: string;
+  onCrossReference?: (type: string, value: string) => void;
+  tableType?: string;
+}
+
+function RowDetailDialog({ 
+  open, 
+  onClose, 
+  rowData, 
+  columns, 
+  title,
+  onCrossReference,
+  tableType: explicitTableType
+}: RowDetailDialogProps) {
+  if (!rowData) return null;
+
+  const tableType = explicitTableType || getTableType(title);
+  
+  // Define which columns are considered "description" columns for each table type
+  const descriptionColumns = {
+    appearance: ['NAME'],
+    feats: ['DESCRIPTION'],
+    spells: ['SpellDesc'],
+  }[tableType] || [];
+
+  return (
+    <Dialog 
+      open={open} 
+      onClose={onClose} 
+      maxWidth="md" 
+      fullWidth
+      scroll="paper"
+    >
+      <DialogTitle sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        pb: 1
+      }}>
+        <Box>
+          <Typography variant="h6" component="div">
+            {title} Details
+          </Typography>
+          <Typography variant="subtitle2" color="text.secondary">
+            ID: {rowData.id} • {rowData.Label || rowData.LABEL || 'Unnamed'}
+          </Typography>
+        </Box>
+        <IconButton onClick={onClose} size="small">
+          <Close />
+        </IconButton>
+      </DialogTitle>
+      
+      <DialogContent dividers>
+        {/* Show description columns prominently first */}
+        {descriptionColumns.map(col => {
+          const value = rowData[col];
+          if (!value || value === '') return null;
+          
+          return (
+            <Box key={col} sx={{ mb: 3 }}>
+              <Typography variant="h6" gutterBottom color="primary">
+                {col === 'SpellDesc' ? 'Description' : col}
+              </Typography>
+              <Box
+                sx={{
+                  p: 2,
+                  whiteSpace: 'pre-wrap',
+                  lineHeight: 1.6,
+                  backgroundColor: 'action.hover',
+                  borderRadius: 1,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                }}
+              >
+                <Typography variant="body1">{value}</Typography>
+              </Box>
+            </Box>
+          );
+        })}
+        
+        {descriptionColumns.length > 0 && <Divider sx={{ my: 3 }} />}
+        
+        {/* Show all other columns in a grid */}
+        <Typography variant="h6" gutterBottom>
+          All Properties
+        </Typography>
+        <Box sx={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+          gap: 2 
+        }}>
+          {columns.map((col) => {
+            // Skip the description columns as they're shown above
+            if (descriptionColumns.includes(col)) return null;
+            
+            const fieldName = col === 'ID' ? 'id' : col;
+            const value = rowData[fieldName];
+            
+            // Skip empty values
+            if (value === undefined || value === null || value === '') return null;
+            
+            const isNumericReference = onCrossReference && (
+              col.toLowerCase().includes('spell') || 
+              col === 'PREREQFEAT1' || 
+              col === 'PREREQFEAT2' ||
+              col === 'OrReqFeat0' ||
+              col === 'OrReqFeat1' ||
+              col === 'OrReqFeat2' ||
+              col === 'OrReqFeat3' ||
+              col === 'OrReqFeat4' ||
+              col === 'FeatID'
+            ) && !isNaN(Number(value));
+
+            return (
+              <Paper key={col} sx={{ p: 2 }}>
+                <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                  {col}
+                </Typography>
+                {col === 'ID' ? (
+                  <Chip 
+                    label={value} 
+                    size="small" 
+                    color="primary" 
+                    variant="outlined"
+                  />
+                ) : isNumericReference ? (
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<Visibility />}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const referenceType = col.toLowerCase().includes('spell') ? 'spell' : 'feat';
+                      onCrossReference!(referenceType, String(value));
+                      onClose();
+                    }}
+                    sx={{ textTransform: 'none' }}
+                  >
+                    {value}
+                  </Button>
+                ) : (
+                  <Typography variant="body2" sx={{ 
+                    wordBreak: 'break-word',
+                    fontFamily: typeof value === 'number' ? 'monospace' : 'inherit'
+                  }}>
+                    {String(value)}
+                  </Typography>
+                )}
+              </Paper>
+            );
+          })}
+        </Box>
+      </DialogContent>
+      
+      <DialogActions>
+        <Button onClick={onClose} variant="contained">
+          Close
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 }
 
 // Column visibility configurations for each table type
@@ -87,9 +262,61 @@ export function ReferenceDataGrid({
   data, 
   title, 
   loading = false,
-  onCrossReference 
+  onCrossReference
 }: ReferenceDataGridProps) {
   const [searchText, setSearchText] = useState('');
+  const [selectedRow, setSelectedRow] = useState<any>(null);
+  const [detailDialogOpen, setDetailDialogOpen] = useState(false);
+  const [crossRefRow, setCrossRefRow] = useState<any>(null);
+  const [crossRefDialogOpen, setCrossRefDialogOpen] = useState(false);
+  const [crossRefColumns, setCrossRefColumns] = useState<string[]>([]);
+  const [crossRefTitle, setCrossRefTitle] = useState('');
+  const [crossRefTableType, setCrossRefTableType] = useState('');
+
+  const handleRowClick = (params: GridRowParams) => {
+    setSelectedRow(params.row);
+    setDetailDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDetailDialogOpen(false);
+    setSelectedRow(null);
+  };
+
+  const handleCloseCrossRefDialog = () => {
+    setCrossRefDialogOpen(false);
+    setCrossRefRow(null);
+    setCrossRefColumns([]);
+    setCrossRefTitle('');
+    setCrossRefTableType('');
+  };
+
+  // Listen for cross-reference events to open detail dialogs
+  useEffect(() => {
+    const handleOpenRowDetail = (event: CustomEvent) => {
+      const { row, tableType, columns } = event.detail;
+      const currentTableType = getTableType(title);
+      
+      if (tableType === currentTableType) {
+        // Same table type - open normal dialog
+        setSelectedRow(row);
+        setDetailDialogOpen(true);
+      } else {
+        // Different table type - open cross-reference dialog
+        setCrossRefRow(row);
+        setCrossRefColumns(columns || []);
+        setCrossRefTitle(tableType === 'spells' ? 'Spells' : tableType === 'feats' ? 'Feats' : 'Appearance');
+        setCrossRefTableType(tableType);
+        setCrossRefDialogOpen(true);
+      }
+    };
+
+    window.addEventListener('openRowDetail', handleOpenRowDetail as EventListener);
+    
+    return () => {
+      window.removeEventListener('openRowDetail', handleOpenRowDetail as EventListener);
+    };
+  }, [title]);
 
   // Create column definitions
   const columns: GridColDef[] = useMemo(() => {
@@ -158,11 +385,17 @@ export function ReferenceDataGrid({
         } as GridColDef;
       }
 
-      // Handle potential cross-references for spell/feat IDs
+      // Handle specific cross-reference columns
       if (onCrossReference && (
         col.toLowerCase().includes('spell') || 
-        col.toLowerCase().includes('feat') ||
-        col.toLowerCase().includes('prereq')
+        col === 'PREREQFEAT1' || 
+        col === 'PREREQFEAT2' ||
+        col === 'OrReqFeat0' ||
+        col === 'OrReqFeat1' ||
+        col === 'OrReqFeat2' ||
+        col === 'OrReqFeat3' ||
+        col === 'OrReqFeat4' ||
+        col === 'FeatID'
       )) {
         return {
           ...baseColumn,
@@ -174,7 +407,10 @@ export function ReferenceDataGrid({
                 <Button
                   size="small"
                   variant="text"
-                  onClick={() => onCrossReference(referenceType, String(value))}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onCrossReference(referenceType, String(value));
+                  }}
                   sx={{ 
                     textTransform: 'none',
                     color: 'secondary.main',
@@ -309,11 +545,34 @@ export function ReferenceDataGrid({
           },
           '& .MuiDataGrid-row:hover': {
             backgroundColor: 'action.hover',
+            cursor: 'pointer',
           },
         }}
         getRowId={(row) => row.id}
+        onRowClick={handleRowClick}
         disableRowSelectionOnClick
         density="compact"
+      />
+      
+      {/* Row Detail Dialog */}
+      <RowDetailDialog
+        open={detailDialogOpen}
+        onClose={handleCloseDialog}
+        rowData={selectedRow}
+        columns={data?.columns || []}
+        title={title}
+        onCrossReference={onCrossReference}
+      />
+
+      {/* Cross-Reference Dialog */}
+      <RowDetailDialog
+        open={crossRefDialogOpen}
+        onClose={handleCloseCrossRefDialog}
+        rowData={crossRefRow}
+        columns={crossRefColumns}
+        title={crossRefTitle}
+        onCrossReference={onCrossReference}
+        tableType={crossRefTableType}
       />
     </Paper>
   );
