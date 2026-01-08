@@ -55,18 +55,6 @@ export function ReferenceApp() {
   };
 
   // Helper functions to get names for cross-references
-  const getFeatName = (featId: string | number) => {
-    if (!featData.data) return null;
-    const feat = featData.data.rows.find(row => row.id === parseInt(String(featId)));
-    return feat ? feat.FEAT || feat.Label || feat.LABEL : null;
-  };
-
-  const getSpellName = (spellId: string | number) => {
-    if (!spellsData.data) return null;
-    const spell = spellsData.data.rows.find(row => row.id === parseInt(String(spellId)));
-    return spell ? spell.Name || spell.Label : null;
-  };
-
   const handleCrossReference = (type: string, value: string) => {
     const targetId = parseInt(value);
     

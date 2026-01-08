@@ -470,7 +470,7 @@ export function ReferenceDataGrid({
     }
 
     return baseColumns;
-  }, [data, onCrossReference, title]);
+  }, [data, onCrossReference, title, getFeatName, getSpellName]);
 
   // Create column visibility model
   const columnVisibilityModel = useMemo(() => {
