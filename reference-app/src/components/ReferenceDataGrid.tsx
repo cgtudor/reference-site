@@ -33,6 +33,8 @@ interface ReferenceDataGridProps {
   title: string;
   loading?: boolean;
   onCrossReference?: (type: string, value: string) => void;
+  getFeatName?: (featId: string | number) => string | null;
+  getSpellName?: (spellId: string | number) => string | null;
 }
 
 interface RowDetailDialogProps {
@@ -43,6 +45,8 @@ interface RowDetailDialogProps {
   title: string;
   onCrossReference?: (type: string, value: string) => void;
   tableType?: string;
+  getFeatName?: (featId: string | number) => string | null;
+  getSpellName?: (spellId: string | number) => string | null;
 }
 
 function RowDetailDialog({ 
@@ -52,7 +56,9 @@ function RowDetailDialog({
   columns, 
   title,
   onCrossReference,
-  tableType: explicitTableType
+  tableType: explicitTableType,
+  getFeatName,
+  getSpellName
 }: RowDetailDialogProps) {
   if (!rowData) return null;
 
@@ -178,7 +184,7 @@ function RowDetailDialog({
                     }}
                     sx={{ textTransform: 'none' }}
                   >
-                    {value}
+                    {(col.toLowerCase().includes('spell') ? getSpellName?.(value) : getFeatName?.(value)) || `#${value}`}
                   </Button>
                 ) : (
                   <Typography variant="body2" sx={{ 
@@ -217,6 +223,10 @@ const COLUMN_CONFIGS = {
     hidden: ['ConjAnim', 'ConjHeadVisual', 'ConjHandVisual', 'ConjGrndVisual', 'ConjSoundVFX', 'ConjSoundMale', 'ConjSoundFemale', 'CastHeadVisual', 'CastHandVisual', 'CastGrndVisual', 'CastSound', 'ProjModel', 'ProjType', 'ProjSpwnPoint', 'ProjSound', 'ProjOrientation', 'ItemImmunity', 'Category', 'UserType', 'Counter1', 'Counter2', 'Necro', 'Blighter', 'TargetSizeX', 'TargetSizeY', 'TargetFlags'],
     order: ['ID', 'Label', 'Name', 'SpellDesc'], // SpellDesc comes after Name
   },
+  placeables: {
+    hidden: ['LightOffsetX', 'LightOffsetY', 'LightOffsetZ', 'BodyBag', 'LowGore', 'Reflection'],
+    order: ['ID', 'Label', 'ModelName', 'LightColor', 'SoundAppType', 'ShadowSize', 'Static'],
+  },
 };
 
 function getTableType(title: string): keyof typeof COLUMN_CONFIGS {
@@ -224,6 +234,7 @@ function getTableType(title: string): keyof typeof COLUMN_CONFIGS {
   if (titleLower.includes('appearance')) return 'appearance';
   if (titleLower.includes('feat')) return 'feats';
   if (titleLower.includes('spell')) return 'spells';
+  if (titleLower.includes('placeable')) return 'placeables';
   return 'spells'; // default
 }
 
@@ -262,7 +273,9 @@ export function ReferenceDataGrid({
   data, 
   title, 
   loading = false,
-  onCrossReference
+  onCrossReference,
+  getFeatName,
+  getSpellName
 }: ReferenceDataGridProps) {
   const [searchText, setSearchText] = useState('');
   const [selectedRow, setSelectedRow] = useState<any>(null);
@@ -403,6 +416,11 @@ export function ReferenceDataGrid({
             const value = params.value;
             if (value && value !== '' && !isNaN(Number(value))) {
               const referenceType = col.toLowerCase().includes('spell') ? 'spell' : 'feat';
+              const targetName = referenceType === 'spell' 
+                ? getSpellName?.(value) 
+                : getFeatName?.(value);
+              const displayText = targetName || `#${value}`;
+              
               return (
                 <Button
                   size="small"
@@ -418,9 +436,9 @@ export function ReferenceDataGrid({
                       backgroundColor: 'action.hover',
                     }
                   }}
-                  title={`Go to ${referenceType} #${value}`}
+                  title={`Go to ${referenceType}: ${targetName || `ID #${value}`}`}
                 >
-                  {value}
+                  {displayText}
                 </Button>
               );
             }
@@ -566,6 +584,8 @@ export function ReferenceDataGrid({
         columns={data?.columns || []}
         title={title}
         onCrossReference={onCrossReference}
+        getFeatName={getFeatName}
+        getSpellName={getSpellName}
       />
 
       {/* Cross-Reference Dialog */}
@@ -577,6 +597,8 @@ export function ReferenceDataGrid({
         title={crossRefTitle}
         onCrossReference={onCrossReference}
         tableType={crossRefTableType}
+        getFeatName={getFeatName}
+        getSpellName={getSpellName}
       />
     </Paper>
   );

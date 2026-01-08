@@ -546,6 +546,42 @@
       "text": "goodmaid"
     },
     {
+      "id": 170,
+      "text": "Avoid using modern titles such as \"Mister\", \"Mrs\" or \"Miss\" as these are 19th-century titles and far too contemporary for TDN's setting. For example, you can use Goodlass/Goodmaid for 'Miss'. For more information, find \"A Guide to Good Manners\" in the library or visit Idioms & Phrases. "
+    },
+    {
+      "id": 171,
+      "text": "Noble children are often sent to live with other noble families, a practice known as fostering, to strengthen alliances and learn the ways of different households. Marriages were typically arranged to form political and economic alliances, sometimes decided at a young age."
+    },
+    {
+      "id": 172,
+      "text": "Churches often depend on donations, which can be unstable and challenging during economic or social crises. Limited funds make it difficult to maintain buildings, support clergy, and fulfill their mission, specially as they compete with other churches and institutions for the same donors. They often turn to fund raising, wealthy patrons, or political alliances, but these measures are not always reliable, leaving many churches under constant financial strain."
+    },
+    {
+      "id": 173,
+      "text": "In contrast to their limited roles in the military, women in Amn flourish and hold significant positions of power within religious organizations. As acolytes, priestesses, abbesses, and other clergy, they can wield considerable influence and contribute to the spiritual and social welfare of their communities."
+    },
+    {
+      "id": 174,
+      "text": "In most realms, half-orcs occupy the lowest rung of society, widely regarded as brutish, repulsive, or unfit for civilized life. In Amn particularly, these prejudices have deepened as a significant portion of the Winter Horde's ranks was made up of half-orcs. "
+    },
+    {
+      "id": 175,
+      "text": "The Wealdath is largely considered an eerie, fey-haunted forest where trees whisper, gleaming eyes watch from the dark, and most humans know better than to wander too deep, for they may never return. "
+    },
+    {
+      "id": 176,
+      "text": "Gnomes are so rare that most Amnians do not know what they are nor what to make of them. "
+    },
+    {
+      "id": 177,
+      "text": "Half-elves find their place in Amnian society according to how well they pass as human. Those who downplay their elven heritage adapt best, though prejudice may still shadow them. "
+    },
+    {
+      "id": 178,
+      "text": "To an Amnian, economic success is everything. The average Amnian citizen is driven to amass as much wealth as possible within a lifetime. Those with the means are raised under high expectations to succeed, most often in the realms of commerce, banking, small business ventures, or artisan guilds. "
+    },
+    {
       "id": 200,
       "text": "XX_IGNORE\n"
     },
@@ -1671,7 +1707,7 @@
     },
     {
       "id": 504,
-      "text": "(PRESTIGE CLASS) \nBladesingers are elves who bravely defend their people and lands. They are elf wizards who master a school of sword fighting grounded in a tradition of arcane magic. In combat, a bladesinger uses a series of intricate, elegant maneuvers that fend off harm and allow the bladesinger to channel magic into devastating attacks and a cunning defense. Only elves and half-elves can choose the bladesinger arcane tradition. In the world of Faerûn, elves closely guard the secrets of bladesinging.\n\n- Alignment Restriction: None\n- Hit Die: d8\n- Proficiencies: Light Armor\n- Skill Points: 3 + INT Modifier\n- Class Skills: All Knowledge, Barter, Bluff, Concentration, Craft Trap, Diplomacy, Heal, Intimidate, Perform, Sense Motive, Spellcraft, Taunt, Tumble\n- Primary Saving Throws: Reflex & Will\n- Base Attack Bonus: + 1 Levels\n\n--- Requirements ---\n\n- Racial Restriction: Elf & (Half-Elf with Elven Bladesinger Mentorship)\n- Base Attack Bonus: +6\n- Feats: Combat Casting, Weapon Focus (Longsword or Rapier)\n- Skills: Concentration 6 Ranks, Perform 4 Ranks, Tumble 5 Ranks\n- Spellcasting: Ability to cast arcane spells 1st level or higher\n\nLevel:\n2: Bladesong Style, Lesser Spellsong\n3: Song of Fury\n4: Greater Spellsong\n5: Song of Celerity\n\nSpells per Day: The bladesinger gains new spells per day as if they had also gained a level in an arcane spellcasting class they have already advanced in at level 1 and level 4.. They do not learn new spells at these levels.\n\nBladesong Style: While wielding a longsword or rapier in their main hand and nothing in their off-hand, the bladesinger's receives a shield bonus to AC and a bonus to damage equal to their INT modifier to a maximum of ½ their class level. (rounded down). Additionally, the bladesinger gains 20% spell failure reduction while wearing light armor and a +3 bonus to Concentration skill checks. This ability may not be used while wearing medium or heavy armor, or while using a shield.\n\nLesser Spellsong: The bladesinger becomes capable of a dance of death; their body swaying and writhing to the rhythm of combat and the sound of blades striking flesh. This whirl of steel can be mesmerizing and overwhelming to all who oppose them. This grants the bladesinger 10% concealment, makes them impossible to tie down as the Freedom of Movement spell, and grants them immunity to mind-affecting spells. This ability may be used once every 20 minutes. Duration is a number of rounds equal to their Perform skill ranks.\n\nSong of Fury: The bladesinger can shape the Weave with their blade, summoning echoes from aeons past, gaining a +4 bonus to strength and dexterity , and dealing an additional 1d2 Sonic damage with their melee attacks. These bonuses are also applied to all nearby elves. Nearby half-elves gain 50% of these bonuses. This ability may be used once every 8 minutes. Duration is 3 rounds + 1 round / INT modifier.\n\nGreater Spellsong: The bladesinger's spellsong further sharpens their mind, enveloping them in a state of meditative focus and grace. This grants the bladesinger 20% concealment, makes them impossible to pin down as the Freedom of Movement spell, grants them immunity to mind-affecting spells, and a +4 bonus to intelligence. This ability upgrades and replaces Lesser Spellsong and may be used once every 12 minutes. Duration is a number of rounds equal to their Perform skill ranks.\n\nSong of Celerity: The bladesinger may invoke the ancestral power of the elves, as the Haste and Wounding Whispers spells. These bonuses are also applied to nearby elves. Nearby half-elves gain 50% of these bonuses. This ability may be used once every 12 minutes. Duration is 3 rounds."
+      "text": "(PRESTIGE CLASS) \nBladesingers are elves who bravely defend their people and lands. They are elf wizards who master a school of sword fighting grounded in a tradition of arcane magic. In combat, a bladesinger uses a series of intricate, elegant maneuvers that fend off harm and allow the bladesinger to channel magic into devastating attacks and a cunning defense. Only elves and half-elves can choose the bladesinger arcane tradition. In the world of Faerûn, elves closely guard the secrets of bladesinging.\n\n- Alignment Restriction: None\n- Hit Die: d8\n- Proficiencies: Light Armor\n- Skill Points: 3 + INT Modifier\n- Class Skills: All Knowledge, Barter, Bluff, Concentration, Craft Trap, Diplomacy, Heal, Intimidate, Perform, Sense Motive, Spellcraft, Taunt, Tumble\n- Primary Saving Throws: Reflex & Will\n- Base Attack Bonus: + 1 Levels\n\n--- Requirements ---\n\n- Racial Restriction: Elf\n- Base Attack Bonus: +6\n- Feats: Combat Casting, Weapon Focus (Longsword or Rapier)\n- Skills: Concentration 6 Ranks, Perform 4 Ranks, Tumble 5 Ranks\n- Spellcasting: Ability to cast arcane spells 1st level or higher\n\nLevel:\n2: Bladesong Style, Lesser Spellsong\n3: Song of Fury\n4: Greater Spellsong\n5: Song of Celerity\n\nSpells per Day: The bladesinger gains new spells per day as if they had also gained a level in an arcane spellcasting class they have already advanced in at level 1 and level 4.. They do not learn new spells at these levels.\n\nBladesong Style: While wielding a longsword or rapier in their main hand and nothing in their off-hand, the bladesinger's receives a shield bonus to AC and a bonus to damage equal to their INT modifier to a maximum of ½ their class level. (rounded down). Additionally, the bladesinger gains 20% spell failure reduction while wearing light armor and a +3 bonus to Concentration skill checks. This ability may not be used while wearing medium or heavy armor, or while using a shield.\n\nLesser Spellsong: The bladesinger becomes capable of a dance of death; their body swaying and writhing to the rhythm of combat and the sound of blades striking flesh. This whirl of steel can be mesmerizing and overwhelming to all who oppose them. This grants the bladesinger 10% concealment, makes them impossible to tie down as the Freedom of Movement spell, and grants them immunity to mind-affecting spells. This ability may be used once every 20 minutes. Duration is a number of rounds equal to their Perform skill ranks.\n\nSong of Fury: The bladesinger can shape the Weave with their blade, summoning echoes from aeons past, gaining a +4 bonus to strength and dexterity , and dealing an additional 1d2 Sonic damage with their melee attacks. These bonuses are also applied to all nearby elves. Nearby half-elves gain 50% of these bonuses. This ability may be used once every 8 minutes. Duration is 3 rounds + 1 round / INT modifier.\n\nGreater Spellsong: The bladesinger's spellsong further sharpens their mind, enveloping them in a state of meditative focus and grace. This grants the bladesinger 20% concealment, makes them impossible to pin down as the Freedom of Movement spell, grants them immunity to mind-affecting spells, and a +4 bonus to intelligence. This ability upgrades and replaces Lesser Spellsong and may be used once every 12 minutes. Duration is a number of rounds equal to their Perform skill ranks.\n\nSong of Celerity: The bladesinger may invoke the ancestral power of the elves, as the Haste and Wounding Whispers spells. These bonuses are also applied to nearby elves. Nearby half-elves gain 50% of these bonuses. This ability may be used once every 12 minutes. Duration is 3 rounds."
     },
     {
       "id": 505,
@@ -2711,15 +2747,15 @@
     },
     {
       "id": 818,
-      "text": "Women in Amn often wear headdresses, with more elaborate and ornate examples showing off higher status, such as gold, silver or platinum threaded embroidery. Metal-embroidered silk garments are popular amongst all classes and both genders."
+      "text": "Women in the Lands of Intrigue wear traditionally feminine fashion. Headdresses or veils, in particular, are often a representation of social status, with noblewomen wearing tall, elaborate headpieces as a power move. Metal-embroidered garments and delicate fabrics such as silk and damask are exclusively reserved for the wealthy."
     },
     {
       "id": 819,
-      "text": "The Winter of Teeth begins in 1368 DR, a monstrous horde marching on north-western Amn and dividing the nation when Imnescar and Athkatla are conquered. The war is still ongoing."
+      "text": "The Winter of Teeth begins in 1368 DR, a monstrous horde marching on north-western Amn and dividing the nation when Imnescar and Athkatla are conquered. The war is still ongoing, though less encompassing than before."
     },
     {
       "id": 820,
-      "text": "The Longest Year, the absence of magic following the Time of Troubles, had a profound effect on the entirety of the Realms. Magic is chaotic and unpredictable, resulting in superstition and fear dominating the perception and beliefs of the common folk."
+      "text": "The Longest Year, the absence of magic following the Time of Troubles, lasted roughly around a decade and had a profound effect on the entirety of the Realms. Magic is more chaotic and unpredictable than ever, resulting in superstition and fear dominating the perception and beliefs of the common folk. Many characters, especially the young, would have been raised in a world without magic. Those from rural communities, far from cities, would likely have no firsthand experience with magic."
     },
     {
       "id": 821,
@@ -2795,7 +2831,7 @@
     },
     {
       "id": 839,
-      "text": "Dressing in ornate or fancy garments and jewellery is supposedly frowned upon amongst the wealthiest Amnian families, who apparently wear simpler clothing, resorting to the other displays of status instead."
+      "text": "Dressing in excessively ornate or flamboyant garments and jewelry is generally frowned upon among the Oldest of Amnian families, who prefer more sober and dignified attire, choosing other forms of status display instead. They view the gaudy fashion choices of the New families as tasteless and ostentatious, a stark contrast to their own refined sensibilities."
     },
     {
       "id": 840,
@@ -2839,7 +2875,7 @@
     },
     {
       "id": 850,
-      "text": "The Black Skull Privateers are a clan of ex-pirates, now sworn to Tethyr & the defense of the coast. They have 7 ships with a captain each, yet all defer to Eamon Blaskul of the Queen's Pardon, who tempers the varying personalities of the other captains."
+      "text": "In TDN, magic is rare and out of reach for the average person. Common folk may live most of their lives without encountering any significal magical events. Their only brushes with magic might be through the local midwife, who uses healing herbs and simple charms, or a cleric whose prayers seem to bring out a touch of the divine. Magic in this world is sparse and thinly spread, not part of everyday life."
     },
     {
       "id": 851,
@@ -3427,7 +3463,7 @@
     },
     {
       "id": 1008,
-      "text": "Type of feat: Class\nPrerequisite: Bladesinger 4\n\nSpecifics: A bladesinger's style of attack appears like that of a dance of death, the rhythm combat and the sound of blades striking flesh. This whirl of steel and body can be mesmerizing and overwhelming to those that face a bladesinger. While performing a spellsong, the bladesinger gains 20% concealment, freedom of movement and a 20% increase in move speed. A spellsong lasts for a number of rounds equal to their perform skill. A spellsong can be performed once every hour.\n\nIn addition to the benefits of lesser spellsong, while performing a spellsong all enemies within a short range must make a will save or be confused for 1 round. The DC of this save is 10 + ½ the bladesinger's HD + the bladesinger's intelligence modifier). This is an aura that lasts for the duration of the spellsong.\n\nUse: Activated"
+      "text": "Type of feat: Class\nPrerequisite: Bladesinger 4\n\nSpecifics: The bladesinger's spellsong further sharpens their mind, enveloping them in a state of meditative focus and grace. This grants the bladesinger 20% concealment, makes them impossible to pin down as the Freedom of Movement spell, grants them immunity to mind-affecting spells, and a +4 bonus to intelligence. This ability upgrades and replaces Lesser Spellsong and may be used once every 12 minutes. Duration is a number of rounds equal to their Perform skill ranks.\n\nUse: Activated"
     },
     {
       "id": 1009,
@@ -3443,7 +3479,7 @@
     },
     {
       "id": 1012,
-      "text": "Type of feat: Class\nPrerequisite: Bladesinger 5\n\nSpecifics: The Bladesinger gains the same benefits of the divine power and haste for 3 rounds. Usable three times per day. Instant Cast. This spell is not divine in any way.\n\nUse: Activated"
+      "text": "Type of feat: Class\nPrerequisite: Bladesinger 3\n\nSpecifics: The bladesinger can shape the Weave with their blade, summoning echoes from aeons past, gaining a +4 bonus to strength and dexterity , and dealing an additional 1d2 Sonic damage with their melee attacks. These bonuses are also applied to all nearby elves. Nearby half-elves gain 50% of these bonuses. This ability may be used once every 8 minutes. Duration is 3 + INT modifier rounds.\n\nUse: Activated"
     },
     {
       "id": 1013,
@@ -4502,6 +4538,14 @@
       "text": "Champions of Corellon\nDeity: Corellon Larethian\nPaladins may multiclass freely as Fighter, Warden and Wizard. \nSkill Bonus: Concentration\n1/Day Spell: True Strike\n\nLore:\nIn the wake of The Longest Year, when the silence of the Seldarine left elvenkind without divine guidance and the world teetered on the edge of chaos, an unprecedented order arose among the People. The Champions of Corellon formed not from ancient tradition, but from desperate necessity; elven warriors who witnessed their kin suffer during magic's absence and chose to bind themselves with rigid oaths of protection.\nThis sacrifice was profound, for it asked elvenkind to surrender the very essence of what made them free: their fluid nature, their rejection of rigid structure, their individual wandering spirits. These elven paladins embraced discipline and unwavering dedication in a way that challenged centuries of cultural identity. They swore binding vows to protect the People when the gods could not, to stand as bastions against the darkness when the Weave failed, and to preserve elven communities through strength of arms and purity of purpose.\n\nThe discipline and devotion from these militant elves often leans into zealotry, especially when compared to other Paladin orders; their absolute dedication to protecting and conserving the People's way of life make their members confrontational, assertive, and on occasion, violent.\nThe formation of this order has not been without controversy among the People. Many question whether such rigid devotion truly honors Corellon Larethian, whose very nature embodies change, freedom, and artistic expression. Some see the Champions as a necessary evolution born of hard times, while others view them as elves who have lost their way, adopting the inflexible nature of human institutions. The Champions themselves maintain that their sacrifice of personal freedom serves a greater freedom: the liberty of their people to survive and flourish.\nSince The Longest Year's end, the voice of the Seldarine remains frustratingly muted, offering no clear divine judgment on this new path. The Champions continue their work, their numbers slowly growing among those elves who have witnessed too much suffering and choose structure over chaos, protection over wandering. Whether this represents a new chapter in elven evolution or a temporary aberration born of crisis remains to be seen.\n\nNarrative Considerations: This order emerged specifically from The Longest Year and would be almost exclusively found among elven communities that suffered during that time. Members would likely come from the Wealdath, Evereska, or Evermeet, though some may have formed in smaller elven enclaves across Faerûn. The internal tension between traditional elven values and paladin rigidity creates interesting roleplay opportunities, as does the uncertainty about divine approval in a world where the gods remain largely silent."
     },
     {
+      "id": 1288,
+      "text": "Bladesinger Initiate"
+    },
+    {
+      "id": 1289,
+      "text": "Type of Feat: Class\nSpecifics: This feat is required for the Bladesinger prestige class. It marks one as having received the necessary training to start treading the path of bladesinging.\nUse: Passive"
+    },
+    {
       "id": 1290,
       "text": "Shadowdancer Initiate"
     },
@@ -4563,7 +4607,7 @@
     },
     {
       "id": 1305,
-      "text": "Description: Nothing has been easy for you. Your entire life has been one arduous gauntlet, but despite all adversity you have made a name for yourself. Yet still you cannot escape your bad luck, nor the fact you came from nothing. \n\nBonuses & Penalties: +1 Discipline, +1 Concentration, +1 Knowledge: Nature, -1 Knowledge: World, -1 Hide\nSpecial: Has an extra +2 on their rolls to stabilize."
+      "text": "Description: Nothing has been easy for you. Your entire life has been one arduous gauntlet, but despite all adversity you have made a name for yourself. Yet still you cannot escape your bad luck, nor the fact you came from nothing.\n\nBonuses & Penalties: +1 Discipline, +1 Concentration, +1 Knowledge: Nature, -1 Knowledge: World, -1 Hide\nSpecial: Has an extra +10 on their rolls to stabilize."
     },
     {
       "id": 1306,

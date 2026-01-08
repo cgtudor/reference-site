@@ -279,7 +279,7 @@ export function parse2DAFile(content: string): TableData {
       }
 
       // Resolve string references for various name/description columns
-      const stringRefColumns = ['Name', 'SpellDesc', 'FEAT', 'DESCRIPTION', 'STRING_REF', 'NAME', 'AltMessage'];
+      const stringRefColumns = ['Name', 'SpellDesc', 'FEAT', 'DESCRIPTION', 'STRING_REF', 'NAME', 'AltMessage', 'Label', 'StrRef'];
       if (stringRefColumns.includes(columnName) && value !== '' && /^\d+$/.test(value)) {
         const resolvedText = resolveStringRef(value);
         row[columnName] = resolvedText;

@@ -48,9 +48,23 @@ export function ReferenceApp() {
   const appearanceData = useTableData('appearance.2da');
   const featData = useTableData('feat.2da');
   const spellsData = useTableData('spells.2da');
+  const placeablesData = useTableData('placeables.2da');
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
     setCurrentTab(newValue);
+  };
+
+  // Helper functions to get names for cross-references
+  const getFeatName = (featId: string | number) => {
+    if (!featData.data) return null;
+    const feat = featData.data.rows.find(row => row.id === parseInt(String(featId)));
+    return feat ? feat.FEAT || feat.Label || feat.LABEL : null;
+  };
+
+  const getSpellName = (spellId: string | number) => {
+    if (!spellsData.data) return null;
+    const spell = spellsData.data.rows.find(row => row.id === parseInt(String(spellId)));
+    return spell ? spell.Name || spell.Label : null;
   };
 
   const handleCrossReference = (type: string, value: string) => {
@@ -99,6 +113,12 @@ export function ReferenceApp() {
       filename: 'spells.2da',
       data: spellsData,
       description: 'Spell definitions and casting information. Some columns are hidden by default, use "Manage columns" to see them.'
+    },
+    {
+      label: 'Placeables',
+      filename: 'placeables.2da',
+      data: placeablesData,
+      description: 'Placeable object appearance definitions. Some columns are hidden by default, use "Manage columns" to see them.'
     },
   ];
 
